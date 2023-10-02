@@ -196,6 +196,7 @@ public struct WebViewConfig {
     public let isScrollEnabled: Bool
     public let isOpaque: Bool
     public let backgroundColor: Color
+    public let customUserAgent: String?
     
     public init(javaScriptEnabled: Bool = true,
                 allowsBackForwardNavigationGestures: Bool = true,
@@ -203,7 +204,8 @@ public struct WebViewConfig {
                 mediaTypesRequiringUserActionForPlayback: WKAudiovisualMediaTypes = [],
                 isScrollEnabled: Bool = true,
                 isOpaque: Bool = true,
-                backgroundColor: Color = .clear) {
+                backgroundColor: Color = .clear,
+                customUserAgent: String? = nil) {
         self.javaScriptEnabled = javaScriptEnabled
         self.allowsBackForwardNavigationGestures = allowsBackForwardNavigationGestures
         self.allowsInlineMediaPlayback = allowsInlineMediaPlayback
@@ -211,6 +213,7 @@ public struct WebViewConfig {
         self.isScrollEnabled = isScrollEnabled
         self.isOpaque = isOpaque
         self.backgroundColor = backgroundColor
+        self.customUserAgent = customUserAgent
     }
 }
 
@@ -261,6 +264,7 @@ public struct WebView: UIViewRepresentable {
         } else {
             webView.backgroundColor = .clear
         }
+        webView.customUserAgent = config.customUserAgent
         
         return webView
     }
@@ -334,7 +338,7 @@ public struct WebView: NSViewRepresentable {
         webView.navigationDelegate = context.coordinator
         webView.uiDelegate = context.coordinator
         webView.allowsBackForwardNavigationGestures = config.allowsBackForwardNavigationGestures
-        
+        webView.customUserAgent = config.customUserAgent
         return webView
     }
     
